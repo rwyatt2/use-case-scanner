@@ -1,6 +1,6 @@
 # Use Case Scanner — Enterprise AI Discovery
 
-An enterprise search app that lets users describe **AI use cases** and runs a full scan of your infrastructure to find what already supports that use case. If something’s missing, users can start building the capability or service from the app.
+An enterprise app that lets users describe **AI use cases** and runs a full scan of your infrastructure to find what already supports that use case. If something’s missing, users can start building the capability or service from the app.
 
 Built for **minimal friction and risk** when integrating into existing infrastructure and operations.
 
@@ -17,18 +17,22 @@ Use Case Scanner delivers **real, measurable value** from day one:
 
 ## Features
 
-- **Use case input** — Users describe the AI use case (title + description).
-- **AI scan** — Scans connected systems (APIs, docs, repos, data catalogs) for existing capabilities that support the use case.
-- **Results** — Clear view of **existing capabilities** (with relevance) and **gaps** (what doesn’t exist yet).
-- **Start building** — For each gap: export a spec (JSON) or create a ticket (when integrated with your ticketing system).
-- **Settings** — Configure scan API URL and connected systems (placeholders for your backend connectors).
-- **Enterprise-ready** — Read-only scanning, no writes to your systems; auth and audit via your stack.
+- **Landing page** — Public marketing page with hero, steps, benefits, and CTAs. Alternating section backgrounds and Lunaris design tokens.
+- **Login** — Demo auth (admin / generic user). Protected routes redirect to login; state persisted in `localStorage`.
+- **Dashboard** — Chat-first interface: describe a use case or paste a document; AI suggests scans or use cases. Sidebar: Favorites, My use cases, Recent scans; links to Marketplace, Documentation, Settings.
+- **Marketplace** — Browse APIs, models, repos, applications, databases, services, documentation, datasets, integrations. Filter by scope (Mine / Organization) and type; search and sort. Type badges (icon + label) and colored left borders. Favorites stored in `localStorage`.
+- **Documentation** — `/docs` hub: product docs (Getting started, Scans, Marketplace, Documents, Settings) and marketplace item docs. Each item has `/marketplace/:id/docs` with sections (Quick start, API, Usage, etc.). Breadcrumbs and themed scrollbar.
+- **Use case flow** — Describe a use case → run scan → view results (existing vs gaps) → build capability (export spec or create ticket). New Use Case pane from header; scan and build pages.
+- **Documents flow** — Add docs (upload or paste) → AI recommends use cases → select and scan. Chat accepts attachments for doc analysis.
+- **Breadcrumbs** — App-wide navigation: path-based defaults plus custom breadcrumbs on detail/docs pages. Dashboard shows no breadcrumb strip.
+- **Settings** — Configure scan API URL, toggle mock marketplace data. Feature flags (Dev Panel) for theme and mock data.
+- **Design** — Lunaris design system (light/dark theme), Geist + JetBrains Mono, CSS variables, themed scrollbar, responsive layout.
 
 ## Tech stack
 
 - **Vite** + **React** + **TypeScript**
-- **React Router** for routing
-- CSS modules for styling (dark, enterprise-style theme)
+- **React Router** v6 for routing
+- **CSS modules** + design tokens (Lunaris) for styling; light/dark theme support
 
 ## Getting started
 
@@ -38,6 +42,15 @@ npm run dev
 ```
 
 Open [http://localhost:5173](http://localhost:5173).
+
+- **Landing** — `/` (public).
+- **Login** — `/login` (demo: `admin@example.com` / `admin123` or any email / `demo`).
+- **Dashboard** — `/dashboard` (protected).
+- **Marketplace** — `/marketplace`; item detail `/marketplace/:id`; docs `/marketplace/:id/docs`.
+- **Documentation hub** — `/docs`.
+- **New scan** — `/scan`; results `/results/:scanId`; build gap `/build/:gapId`.
+- **Documents** — `/documents`; recommendations `/documents/recommendations`.
+- **Settings** — `/settings`.
 
 ## Integration (selling to companies)
 
@@ -52,28 +65,38 @@ Open [http://localhost:5173](http://localhost:5173).
    VITE_SCAN_API_URL=https://your-scanner-api.example.com npm run build
    ```
 
-3. **Auth** — Add your SSO or API-key auth in front of the app and/or API (e.g. reverse proxy, API gateway).
+3. **Auth** — Replace demo login with your SSO or API-key auth (e.g. reverse proxy, API gateway).
 
-4. **Connectors** — In your backend, add read-only connectors to:
+4. **Marketplace** — When mock data is off, point the app at your catalog API (e.g. `/marketplace` and `/marketplace/:id`) so marketplace and docs reflect your assets.
+
+5. **Connectors** — In your backend, add read-only connectors to:
    - API catalog / service registry  
    - Internal docs (Confluence, Notion, etc.)  
    - Code repos (metadata, READMEs)  
    - Data catalog  
 
-5. **Ticketing** — Optional: in Settings / “Start building”, wire “Create ticket” to Jira, Linear, GitHub Issues, etc., so users can create tickets from a gap.
+6. **Ticketing** — Optional: wire “Create ticket” (Build capability) to Jira, Linear, GitHub Issues, etc.
 
 ## Demo mode
 
-If `VITE_SCAN_API_URL` is not set, the app runs in **demo mode**: each scan returns mock results so you can try the full flow (input → results → existing vs gaps → start building / export spec) without a backend.
+If `VITE_SCAN_API_URL` is not set, scans use **mock results**. With “Use mock marketplace data” on (Settings or Dev Panel), the marketplace shows sample APIs, models, repos, and docs so you can try the full flow without a backend.
 
 ## Project structure
 
 ```
 src/
-  components/     # Layout, shared UI
-  pages/          # Dashboard, NewUseCase, ScanResults, BuildCapability, Settings
-  services/       # scan.ts — API client + mock
-  types.ts        # UseCase, ScanResult, ExistingCapability, CapabilityGap, etc.
+  components/     # Layout, Breadcrumbs, ChatInput, ChatMessageList, ProfileMenu,
+                 # NewUseCasePane, ProtectedRoute, Skeleton, ErrorBoundary, DevPanel
+  content/        # marketplaceDocs.ts — example doc content per marketplace item
+  context/       # Auth, Breadcrumb, Chat, Favorites, FeatureFlags
+  hooks/          # useScrollReveal
+  lib/            # api, marketplaceTypes, myUseCases
+  pages/          # Landing, Login, Dashboard, Marketplace, MarketplaceDetail,
+                 # MarketplaceDocs, Docs, AddDocuments, RecommendedUseCases,
+                 # NewUseCase, ScanResults, BuildCapability, Settings, NotFound
+  services/       # scan, documents, marketplace
+  types.ts        # UseCase, ScanResult, MarketplaceProduct, etc.
+  index.css       # Lunaris tokens, scrollbar, global styles
 ```
 
 ## License
