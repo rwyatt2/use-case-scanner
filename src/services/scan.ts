@@ -1,6 +1,6 @@
 import type { UseCase, ScanResult, ExistingCapability, CapabilityGap } from '@/types'
-
-const API_BASE = import.meta.env.VITE_SCAN_API_URL || ''
+import { API_BASE, STORAGE_KEYS } from '@/constants'
+import { apiPost } from '@/lib/api'
 
 /**
  * Extension point: replace with your backend that:
@@ -10,16 +10,8 @@ const API_BASE = import.meta.env.VITE_SCAN_API_URL || ''
  */
 export async function runScan(useCase: Pick<UseCase, 'title' | 'description'>): Promise<ScanResult> {
   if (API_BASE) {
-    const res = await fetch(`${API_BASE}/scan`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(useCase),
-    })
-    if (!res.ok) throw new Error('Scan failed')
-    return res.json()
+    return apiPost<ScanResult>('/scan', useCase)
   }
-
-  // Mock result for demo / development
   return mockScan(useCase)
 }
 
@@ -80,7 +72,7 @@ function mockScan(useCase: Pick<UseCase, 'title' | 'description'>): ScanResult {
 
 export function getStoredScan(scanId: string): ScanResult | null {
   try {
-    const raw = sessionStorage.getItem(`scan:${scanId}`)
+    const raw = sessionStorage.getItem(`${STORAGE_KEYS.SCAN_PREFIX}${scanId}`)
     return raw ? (JSON.parse(raw) as ScanResult) : null
   } catch {
     return null
@@ -88,5 +80,5 @@ export function getStoredScan(scanId: string): ScanResult | null {
 }
 
 export function storeScan(result: ScanResult): void {
-  sessionStorage.setItem(`scan:${result.useCaseId}`, JSON.stringify(result))
+  sessionStorage.setItem(`${STORAGE_KEYS.SCAN_PREFIX}${result.useCaseId}`, JSON.stringify(result))
 }

@@ -4,6 +4,17 @@ An enterprise search app that lets users describe **AI use cases** and runs a fu
 
 Built for **minimal friction and risk** when integrating into existing infrastructure and operations.
 
+## Value proposition
+
+Use Case Scanner delivers **real, measurable value** from day one:
+
+- **Ship faster** — Go from “do we have something for this?” to a clear map in minutes. No manual catalog trawling or cross-team ping-pong. Turn weeks of discovery into hours.
+- **Avoid duplicate work** — See what already exists (APIs, models, data) before you build. Reuse instead of reimplementing; cut wasted engineering and reduce technical debt.
+- **One source of truth** — Use cases, scan results, and gaps live in one place. Share links with stakeholders, keep alignment without extra docs or spreadsheets.
+- **Audit-ready** — Read-only scanning and exportable specs. Prove what you have, what you’re building, and how it ties to use cases—for compliance, governance, and board reporting.
+
+**Why it’s safe:** Read-only scan (no writes to your systems), your auth and catalog, no lock-in, export and audit trail. Integrate in minutes.
+
 ## Features
 
 - **Use case input** — Users describe the AI use case (title + description).

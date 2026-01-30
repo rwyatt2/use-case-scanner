@@ -1,4 +1,5 @@
 import { useParams, Link } from 'react-router-dom'
+import { ROUTES } from '@/constants'
 import { getStoredScan } from '@/services/scan'
 import styles from './ScanResults.module.css'
 
@@ -85,7 +86,7 @@ export function ScanResults() {
                   <strong>Suggested approach:</strong> {gap.suggestedApproach}
                 </p>
               )}
-              <Link to={`/build/${gap.id}`} className={styles.buildLink} state={{ scanId: result.useCaseId }}>
+              <Link to={`${ROUTES.BUILD}/${gap.id}`} className={styles.buildLink} state={{ scanId: result.useCaseId }}>
                 Start building →
               </Link>
             </li>

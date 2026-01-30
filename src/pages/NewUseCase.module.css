@@ -43,7 +43,7 @@
 .textarea:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.2);
+  box-shadow: 0 0 0 2px rgba(255, 132, 0, 0.25);
 }
 
 .textarea {
@@ -51,10 +51,30 @@
   min-height: 100px;
 }
 
+.errorBlock {
+  padding: var(--space-3);
+  background: rgba(255, 92, 51, 0.08);
+  border: 1px solid var(--destructive);
+  border-radius: var(--radius);
+  margin-bottom: var(--space-2);
+}
+
 .error {
-  color: var(--danger);
-  font-size: 0.875rem;
-  margin: 0;
+  color: var(--destructive);
+  font-size: var(--text-sm);
+  margin: 0 0 var(--space-2);
+}
+
+.dismissError {
+  font-size: var(--text-xs);
+  color: var(--muted-foreground);
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.dismissError:hover {
+  color: var(--foreground);
 }
 
 .submit {

@@ -1,19 +1,80 @@
 .wrapper {
   min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+}
+
+.skipLink {
+  position: absolute;
+  top: -100px;
+  left: 0.75rem;
+  z-index: 10000;
+  padding: 0.5rem 0.75rem;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: top 0.15s ease;
+}
+
+.skipLink:focus {
+  top: 0.75rem;
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
 }
 
 .header {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.5rem;
+  gap: var(--space-3);
+  padding: 0.75rem 1rem;
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
   z-index: 10;
+}
+
+.headerNav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.navLink {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--muted-foreground);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.navLink:hover {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.newUseCaseBtn {
+  padding: var(--space-2) var(--space-4);
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: filter var(--transition-fast), transform var(--transition-fast);
+}
+
+.newUseCaseBtn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
 }
 
 .logo {
@@ -32,51 +93,67 @@
 }
 
 .logoIcon {
-  color: var(--accent);
+  color: var(--primary);
   font-size: 1.25rem;
 }
 
-.nav {
-  display: flex;
-  gap: 0.25rem;
-}
-
-.navLink,
-.navActive {
-  padding: 0.5rem 0.75rem;
-  border-radius: var(--radius);
-  font-size: 0.875rem;
-  font-weight: 500;
-  text-decoration: none;
-  color: var(--text-secondary);
-  transition: color 0.15s, background 0.15s;
-}
-
-.navLink:hover {
-  color: var(--text-primary);
-  background: var(--bg-tertiary);
-  text-decoration: none;
-}
-
-.navActive {
-  color: var(--accent);
-  background: rgba(88, 166, 255, 0.1);
-  text-decoration: none;
-}
-
+/* Main: full-width scroll container so scrollbar sits at viewport right */
 .main {
   flex: 1;
-  padding: 1.5rem;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Non-dashboard: scroll on main (scrollbar at viewport right), content centered inside */
+.mainScroll {
+  overflow: auto;
+  scrollbar-gutter: stable;
+}
+
+.mainInner {
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  min-height: min-content;
+}
+
+.breadcrumbStrip {
+  flex-shrink: 0;
+  padding: 0 0 var(--space-2) 0;
+}
+
+.breadcrumbStripFull {
+  flex-shrink: 0;
+  padding: 0.5rem 1.5rem var(--space-2);
+}
+
+/* Dashboard (and any full-viewport route) fills the main area with no padding/max-width */
+.mainFull {
+  padding: 0;
+  max-width: none;
+  margin: 0;
+  width: 100%;
+  overflow: hidden;
 }
 
 .footer {
-  padding: 0.75rem 1.5rem;
+  flex-shrink: 0;
+  padding: 0.5rem 1rem;
   border-top: 1px solid var(--border);
   background: var(--bg-secondary);
   font-size: 0.75rem;
   color: var(--text-muted);
   text-align: center;
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding: 0.5rem 0.75rem;
+  }
 }

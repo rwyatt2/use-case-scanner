@@ -1,6 +1,6 @@
 import type { DocumentInput, SuggestedUseCase } from '@/types'
-
-const API_BASE = import.meta.env.VITE_SCAN_API_URL || ''
+import { API_BASE } from '@/constants'
+import { apiPost } from '@/lib/api'
 
 /**
  * Extension point: replace with your backend that:
@@ -10,21 +10,20 @@ const API_BASE = import.meta.env.VITE_SCAN_API_URL || ''
  */
 export async function analyzeDocuments(documents: DocumentInput[]): Promise<SuggestedUseCase[]> {
   if (API_BASE) {
-    const res = await fetch(`${API_BASE}/documents/analyze`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ documents }),
-    })
-    if (!res.ok) throw new Error('Analysis failed')
-    const data = await res.json()
-    return data.suggestedUseCases ?? data
+    const data = await apiPost<{ suggestedUseCases?: SuggestedUseCase[] } | SuggestedUseCase[]>(
+      '/documents/analyze',
+      { documents }
+    )
+    return Array.isArray(data) ? data : (data.suggestedUseCases ?? [])
   }
-
   return mockAnalyze(documents)
 }
 
 function mockAnalyze(documents: DocumentInput[]): SuggestedUseCase[] {
-  const combined = documents.map((d) => d.content).join('\n\n')
+  const combined = documents
+    .map((d) => (d.content.length > 50_000 ? d.content.slice(0, 50_000) + '…' : d.content))
+    .join('\n\n')
+  const hasImage = documents.some((d) => d.mimeType?.startsWith('image/'))
   const hasStrategy = /strategy|roadmap|vision|initiative/i.test(combined)
   const hasSupport = /support|ticket|chat|customer/i.test(combined)
   const hasContent = /content|summariz|extract|classif/i.test(combined)
@@ -64,6 +63,17 @@ function mockAnalyze(documents: DocumentInput[]): SuggestedUseCase[] {
     })
   }
 
+  if (hasImage && !suggestions.some((s) => s.title.toLowerCase().includes('image'))) {
+    suggestions.push({
+      id: crypto.randomUUID(),
+      title: 'Image-based use case',
+      description:
+        'Use case inferred from uploaded images. Describe or refine the use case, then run a scan to find existing support.',
+      confidence: 75,
+      sourceHint: 'Uploaded image(s)',
+    })
+  }
+
   // Default suggestions if nothing matched
   if (suggestions.length === 0) {
     suggestions.push(
@@ -96,4 +106,45 @@ export function readFileAsText(file: File): Promise<string> {
     reader.onerror = () => reject(reader.error)
     reader.readAsText(file, 'UTF-8')
   })
+}
+
+export function readFileAsDataURL(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve((reader.result as string) ?? '')
+    reader.onerror = () => reject(reader.error)
+    reader.readAsDataURL(file)
+  })
+}
+
+const TEXT_EXT = /\.(txt|md|json|ts|tsx|js|jsx|py|csv|html|css|xml|yaml|yml|sh|env)$/i
+const IMAGE_MIME = /^image\//
+
+export function isTextFile(file: File): boolean {
+  return TEXT_EXT.test(file.name) || file.type.startsWith('text/') || file.type === 'application/json'
+}
+
+export function isImageFile(file: File): boolean {
+  return IMAGE_MIME.test(file.type)
+}
+
+/** Build DocumentInput[] from File[]; text files read as text, images as data URL. */
+export async function filesToDocumentInputs(files: File[]): Promise<DocumentInput[]> {
+  const out: DocumentInput[] = []
+  for (const file of files) {
+    const content = isImageFile(file)
+      ? await readFileAsDataURL(file)
+      : isTextFile(file)
+        ? await readFileAsText(file)
+        : `[File: ${file.name}]`
+    out.push({
+      id: crypto.randomUUID(),
+      name: file.name,
+      type: 'file',
+      content,
+      addedAt: new Date().toISOString(),
+      mimeType: file.type || undefined,
+    })
+  }
+  return out
 }

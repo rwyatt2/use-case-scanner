@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useFeatureFlags } from '@/context/FeatureFlags'
 import type { ConnectedSystem } from '@/types'
 import styles from './Settings.module.css'
 
@@ -10,6 +11,7 @@ const defaultSystems: ConnectedSystem[] = [
 ]
 
 export function Settings() {
+  const { flags, setFlag } = useFeatureFlags()
   const [apiUrl, setApiUrl] = useState(import.meta.env.VITE_SCAN_API_URL || '')
   const [systems] = useState<ConnectedSystem[]>(defaultSystems)
 
@@ -19,6 +21,25 @@ export function Settings() {
       <p className={styles.subtitle}>
         Configure integration with your infrastructure. Scans are read-only; no writes to your systems.
       </p>
+
+      <section className={styles.section}>
+        <h2>Feature flags</h2>
+        <p className={styles.hint}>
+          Toggle mock data and demo behavior. When off, the app uses your configured API only.
+        </p>
+        <label className={styles.toggleRow}>
+          <input
+            type="checkbox"
+            checked={flags.useMockMarketplace}
+            onChange={(e) => setFlag('useMockMarketplace', e.target.checked)}
+            className={styles.checkbox}
+          />
+          <span>Use mock marketplace data</span>
+        </label>
+        <p className={styles.note}>
+          When on, the Marketplace shows mock APIs, repos, apps, databases, etc. When off, Marketplace shows only data from your catalog API (or empty).
+        </p>
+      </section>
 
       <section className={styles.section}>
         <h2>Scan API</h2>

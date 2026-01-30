@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useParams, useLocation, Link } from 'react-router-dom'
+import { ROUTES } from '@/constants'
 import { getStoredScan } from '@/services/scan'
 import type { CapabilityGap } from '@/types'
 import styles from './BuildCapability.module.css'
@@ -46,7 +47,7 @@ export function BuildCapability() {
 
   return (
     <div className={styles.page}>
-      <Link to={scanId ? `/results/${scanId}` : '/'} className={styles.back}>
+      <Link to={scanId ? `${ROUTES.RESULTS}/${scanId}` : ROUTES.HOME} className={styles.back}>
         ← Back to results
       </Link>
 
@@ -89,7 +90,7 @@ export function BuildCapability() {
       </section>
 
       <p className={styles.footer}>
-        <Link to="/settings">Settings</Link> — Connect APIs, docs, repos, and ticketing for full integration.
+        <Link to={ROUTES.SETTINGS}>Settings</Link> — Connect APIs, docs, repos, and ticketing for full integration.
       </p>
     </div>
   )

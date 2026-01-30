@@ -1,20 +1,108 @@
+/* Lunaris style guide (pencil-lunaris.pen) — design tokens */
+
 :root {
-  /* Enterprise dark theme — minimal risk, professional */
-  --bg-primary: #0d1117;
-  --bg-secondary: #161b22;
-  --bg-tertiary: #21262d;
-  --border: #30363d;
-  --text-primary: #e6edf3;
-  --text-secondary: #8b949e;
-  --text-muted: #6e7681;
-  --accent: #58a6ff;
-  --accent-hover: #79b8ff;
-  --success: #3fb950;
-  --warning: #d29922;
-  --danger: #f85149;
+  /* Light theme (default) */
+  --accent: #F2F3F0;
+  --accent-foreground: #111111;
+  --background: #F2F3F0;
+  --foreground: #111111;
+  --border: #CBCCC9;
+  --card: #FFFFFF;
+  --card-foreground: #111111;
+  --muted: #F2F3F0;
+  --muted-foreground: #666666;
+  --primary: #FF8400;
+  --primary-foreground: #111111;
+  --secondary: #E7E8E5;
+  --secondary-foreground: #111111;
+  --destructive: #D93C15;
+  --ring: #666666;
+  --input: #CBCCC9;
+  --sidebar: #E7E8E5;
+  --sidebar-foreground: #666666;
+  --color-success-foreground: #004D1A;
+  --color-warning-foreground: #804200;
+  --color-error-foreground: #8C1C00;
+  --color-info-foreground: #000066;
+  --font-primary: 'JetBrains Mono', ui-monospace, monospace;
+  --font-secondary: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --radius-none: 0;
+  --radius-m: 16px;
+  --radius-pill: 999px;
+}
+
+[data-theme="dark"] {
+  --accent: #111111;
+  --accent-foreground: #F2F3F0;
+  --background: #111111;
+  --foreground: #FFFFFF;
+  --border: #2E2E2E;
+  --card: #1A1A1A;
+  --card-foreground: #FFFFFF;
+  --muted: #2E2E2E;
+  --muted-foreground: #B8B9B6;
+  --primary: #FF8400;
+  --primary-foreground: #111111;
+  --secondary: #2E2E2E;
+  --secondary-foreground: #FFFFFF;
+  --destructive: #FF5C33;
+  --ring: #666666;
+  --input: #2E2E2E;
+  --sidebar: #18181b;
+  --sidebar-foreground: #fafafa;
+  --color-success-foreground: #B6FFCE;
+  --color-warning-foreground: #FF8400;
+  --color-error-foreground: #FF5C33;
+  --color-info-foreground: #B2B2FF;
+}
+
+/* App semantic aliases (map to Lunaris) — components use --accent / --accent-hover for CTAs */
+:root {
+  --bg-primary: var(--background);
+  --bg-secondary: var(--card);
+  --bg-tertiary: var(--muted);
+  --text-primary: var(--foreground);
+  --text-secondary: var(--muted-foreground);
+  --text-muted: var(--muted-foreground);
+  --accent: var(--primary);
+  --accent-hover: #e67600;
+  --success: var(--color-success-foreground);
+  --warning: var(--color-warning-foreground);
+  --danger: var(--destructive);
   --radius: 8px;
-  --radius-lg: 12px;
+  --radius-lg: var(--radius-m);
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] {
+  --accent: var(--primary);
+  --accent-hover: #ff9933;
   --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* Typography scale */
+:root {
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --transition-fast: 150ms ease;
+  --transition-base: 200ms ease;
 }
 
 * {
@@ -23,20 +111,72 @@
 
 body {
   margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-secondary);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: var(--bg-primary);
   color: var(--text-primary);
-  line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 #root {
   min-height: 100vh;
 }
 
+/* Themed scrollbar — thin, right edge, matches visual language */
+:root {
+  --scrollbar-track: var(--muted);
+  --scrollbar-thumb: var(--border);
+  --scrollbar-thumb-hover: var(--muted-foreground);
+}
+
+[data-theme="dark"] {
+  --scrollbar-track: var(--muted);
+  --scrollbar-thumb: #404040;
+  --scrollbar-thumb-hover: #666;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+/* WebKit (Chrome, Safari, Edge) */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+*::-webkit-scrollbar-corner {
+  background: var(--scrollbar-track);
+}
+
 a {
-  color: var(--accent);
+  color: var(--primary);
   text-decoration: none;
 }
 
@@ -44,11 +184,27 @@ a:hover {
   text-decoration: underline;
 }
 
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
 button {
   font-family: inherit;
   cursor: pointer;
 }
 
-input, textarea, select {
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+input,
+textarea,
+select {
   font-family: inherit;
 }

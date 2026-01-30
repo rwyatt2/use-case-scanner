@@ -1,14 +1,35 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { ROUTES } from '@/constants'
 import { runScan, storeScan } from '@/services/scan'
+import { addMyUseCase } from '@/lib/myUseCases'
+import { ApiError } from '@/lib/api'
 import styles from './NewUseCase.module.css'
+
+function getErrorMessage(err: unknown): string {
+  if (err instanceof ApiError) {
+    if (err.message === 'Request timed out') return 'Request timed out. Check your connection and try again.'
+    if (err.status === 502 || err.status === 503) return 'Service temporarily unavailable. Please try again.'
+    if (err.status === 401) return 'Authentication required. Configure your API or auth.'
+  }
+  return err instanceof Error ? err.message : 'Scan failed. Please try again.'
+}
+
+type LocationState = { suggestedTitle?: string; suggestedDescription?: string }
 
 export function NewUseCase() {
   const navigate = useNavigate()
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
+  const location = useLocation()
+  const state = (location.state ?? {}) as LocationState
+  const [title, setTitle] = useState(state.suggestedTitle ?? '')
+  const [description, setDescription] = useState(state.suggestedDescription ?? '')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (state.suggestedTitle) setTitle(state.suggestedTitle)
+    if (state.suggestedDescription) setDescription(state.suggestedDescription)
+  }, [state.suggestedTitle, state.suggestedDescription])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -21,9 +42,10 @@ export function NewUseCase() {
     try {
       const result = await runScan({ title: title.trim(), description: description.trim() })
       storeScan(result)
-      navigate(`/results/${result.useCaseId}`)
+      addMyUseCase(result.useCaseId, title.trim(), description.trim())
+      navigate(`${ROUTES.RESULTS}/${result.useCaseId}`)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Scan failed. Please try again.')
+      setError(getErrorMessage(err))
     } finally {
       setLoading(false)
     }
@@ -59,8 +81,15 @@ export function NewUseCase() {
             disabled={loading}
           />
         </label>
-        {error && <p className={styles.error}>{error}</p>}
-        <button type="submit" className={styles.submit} disabled={loading}>
+        {error && (
+          <div className={styles.errorBlock} role="alert">
+            <p className={styles.error}>{error}</p>
+            <button type="button" onClick={() => setError(null)} className={styles.dismissError}>
+              Dismiss
+            </button>
+          </div>
+        )}
+        <button type="submit" className={styles.submit} disabled={loading} aria-busy={loading}>
           {loading ? 'Scanning…' : 'Run scan'}
         </button>
       </form>

@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import type { SuggestedUseCase } from '@/types'
+import { ROUTES, STORAGE_KEYS } from '@/constants'
 import { runScan, storeScan } from '@/services/scan'
 import styles from './RecommendedUseCases.module.css'
 
-const STORAGE_KEY = 'suggestedUseCases'
-
 function getStoredSuggestions(): SuggestedUseCase[] {
   try {
-    const raw = sessionStorage.getItem(STORAGE_KEY)
+    const raw = sessionStorage.getItem(STORAGE_KEYS.SUGGESTED_USE_CASES)
     return raw ? (JSON.parse(raw) as SuggestedUseCase[]) : []
   } catch {
     return []
@@ -55,7 +54,7 @@ export function RecommendedUseCases() {
       if (!useCase) return
       const result = await runScan({ title: useCase.title, description: useCase.description })
       storeScan(result)
-      navigate(`/results/${result.useCaseId}`)
+      navigate(`${ROUTES.RESULTS}/${result.useCaseId}`)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Scan failed. Try again.')
     } finally {
@@ -67,7 +66,7 @@ export function RecommendedUseCases() {
     return (
       <div className={styles.page}>
         <p className={styles.empty}>No recommendations found. Add documents first.</p>
-        <Link to="/documents" className={styles.link}>
+        <Link to={ROUTES.DOCUMENTS} className={styles.link}>
           Add documents
         </Link>
       </div>
@@ -124,7 +123,7 @@ export function RecommendedUseCases() {
         >
           {scanning ? 'Scanning…' : `Scan selected (${selected.size})`}
         </button>
-        <Link to="/documents" className={styles.tryAgain}>
+        <Link to={ROUTES.DOCUMENTS} className={styles.tryAgain}>
           Try again with different documents
         </Link>
       </div>

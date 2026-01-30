@@ -1,0 +1,117 @@
+.list {
+  list-style: none;
+  margin: 0;
+  padding: var(--space-4) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.rowUser {
+  align-self: flex-end;
+}
+
+.rowAssistant {
+  align-self: flex-start;
+}
+
+.bubble {
+  max-width: 85%;
+  width: fit-content;
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-lg);
+  line-height: var(--leading-relaxed);
+  font-size: var(--text-sm);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.bubbleUser {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-bottom-right-radius: var(--space-1);
+}
+
+.bubbleAssistant {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-bottom-left-radius: var(--space-1);
+}
+
+.bubbleAssistant p {
+  margin: 0 0 var(--space-2);
+}
+
+.bubbleAssistant p:last-child {
+  margin-bottom: 0;
+}
+
+.bubbleAssistant strong {
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.actions {
+  margin-top: var(--space-3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.actionLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-weight: 500;
+  font-size: var(--text-xs);
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: filter var(--transition-fast);
+}
+
+.actionLink:hover {
+  filter: brightness(1.08);
+  text-decoration: none;
+  color: var(--primary-foreground);
+}
+
+.suggestedCard {
+  display: block;
+  padding: var(--space-3) var(--space-4);
+  background: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: var(--space-2);
+  text-decoration: none;
+  color: var(--foreground);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.suggestedCard:hover {
+  border-color: var(--primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  text-decoration: none;
+  color: var(--foreground);
+}
+
+.suggestedCardTitle {
+  font-weight: 600;
+  font-size: var(--text-sm);
+  margin: 0 0 var(--space-1);
+}
+
+.suggestedCardDesc {
+  font-size: var(--text-xs);
+  color: var(--muted-foreground);
+  margin: 0;
+  line-height: var(--leading-snug);
+}
+
+.meta {
+  font-size: var(--text-xs);
+  color: var(--muted-foreground);
+  margin-top: var(--space-2);
+}

@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "open": "open http://localhost:5173"
+    "open": "open http://localhost:5173",
+    "tunnel": "npx --yes localtunnel --port 5173"
   },
   "dependencies": {
     "react": "^18.3.1",

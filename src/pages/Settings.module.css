@@ -74,6 +74,22 @@
   font-size: 0.75rem;
 }
 
+.toggleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+}
+
+.checkbox {
+  width: 1.125rem;
+  height: 1.125rem;
+  accent-color: var(--accent);
+}
+
 .systemList {
   list-style: none;
   margin: 0 0 0.75rem;

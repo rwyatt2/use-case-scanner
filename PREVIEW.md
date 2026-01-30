@@ -1,6 +1,6 @@
 # How to see the app
 
-The Cursor MCP browser often **cannot** reach `localhost` on your machine, so the in-IDE browser may show a connection error. Use one of these instead:
+The Cursor in-IDE browser often **cannot** reach `localhost` on your machine, so it may show a connection error. Use one of these:
 
 ---
 
@@ -37,6 +37,25 @@ The app should load in that panel if it runs in your host environment.
 2. Choose **“Start dev server”**.
 3. Wait until the task log shows the local URL.
 4. Run task **“Open in system browser”** or open `http://localhost:5173` in Simple Browser as in Option 2.
+
+---
+
+## Option 4: Cursor browser (via tunnel)
+
+To load the app **in the Cursor browser tab** (the one the AI can open), the browser needs a public URL instead of localhost:
+
+1. **Terminal 1:** Start the dev server:
+   ```bash
+   npm run dev
+   ```
+2. **Terminal 2:** Start a tunnel:
+   ```bash
+   npm run tunnel
+   ```
+   You’ll see a URL like `https://random-words.loca.lt`. Copy it.
+3. **In Cursor:** Open the Cursor browser (or ask the AI to “open [your URL] in the Cursor browser”) and paste that URL, or paste it in the browser’s address bar.
+
+The app will load in the Cursor browser. Leave both `npm run dev` and `npm run tunnel` running.
 
 ---
 

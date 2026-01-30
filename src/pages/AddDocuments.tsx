@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import type { DocumentInput } from '@/types'
+import { ROUTES } from '@/constants'
 import { analyzeDocuments, readFileAsText } from '@/services/documents'
 import styles from './AddDocuments.module.css'
 
@@ -65,7 +66,7 @@ export function AddDocuments() {
     try {
       const suggested = await analyzeDocuments(documents)
       sessionStorage.setItem('suggestedUseCases', JSON.stringify(suggested))
-      navigate('/documents/recommendations')
+      navigate(ROUTES.DOCUMENTS_RECOMMENDATIONS)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Analysis failed. Try again.')
     } finally {
