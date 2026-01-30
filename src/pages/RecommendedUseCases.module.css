@@ -1,0 +1,144 @@
+.page {
+  max-width: 640px;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  margin: 0 0 1.5rem;
+}
+
+.empty {
+  color: var(--text-secondary);
+  margin: 0 0 0.75rem;
+}
+
+.link {
+  font-weight: 500;
+}
+
+.toolbar {
+  margin-bottom: 1rem;
+}
+
+.selectAll {
+  padding: 0.375rem 0.75rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.selectAll:hover {
+  color: var(--text-primary);
+  border-color: var(--accent);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.card {
+  padding: 1rem 1.25rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 0.75rem;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+}
+
+.checkbox {
+  width: 1.125rem;
+  height: 1.125rem;
+  accent-color: var(--accent);
+}
+
+.cardTitle {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.description {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0 0 0.5rem;
+  padding-left: 1.625rem;
+}
+
+.meta {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: 0;
+  padding-left: 1.625rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.confidence {
+  color: var(--success);
+}
+
+.hint {
+  font-style: italic;
+}
+
+.error {
+  color: var(--danger);
+  font-size: 0.875rem;
+  margin: 1rem 0 0;
+}
+
+.actions {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.scanBtn {
+  padding: 0.75rem 1.25rem;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  border: none;
+  border-radius: var(--radius);
+}
+
+.scanBtn:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.scanBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.tryAgain {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.tryAgain:hover {
+  color: var(--accent);
+}

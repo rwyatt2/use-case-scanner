@@ -1,0 +1,146 @@
+.page {
+  max-width: 640px;
+}
+
+.back {
+  display: inline-block;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  text-decoration: none;
+}
+
+.back:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.empty {
+  color: var(--text-secondary);
+  margin: 0 0 0.75rem;
+}
+
+.link {
+  font-weight: 500;
+}
+
+.header {
+  margin-bottom: 1.5rem;
+}
+
+.priority {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.priority[data-priority="high"] {
+  color: var(--danger);
+}
+
+.priority[data-priority="medium"] {
+  color: var(--warning);
+}
+
+.priority[data-priority="low"] {
+  color: var(--text-muted);
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+
+.description {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.section {
+  padding: 1.25rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 1.5rem;
+}
+
+.section h2 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}
+
+.section p {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.actions h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}
+
+.actionsDesc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0 0 1rem;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.btnPrimary,
+.btnSecondary {
+  display: inline-block;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.btnPrimary {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.btnPrimary:hover {
+  background: var(--accent-hover);
+}
+
+.btnSecondary {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--border);
+}
+
+.btnSecondary:hover {
+  border-color: var(--accent);
+  text-decoration: none;
+  color: var(--accent);
+}
+
+.footer {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin-top: 2rem;
+}
+
+.footer a {
+  color: var(--accent);
+}
